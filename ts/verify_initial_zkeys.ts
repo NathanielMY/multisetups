@@ -53,7 +53,7 @@ const verify_initial_zkeys = async (
 
     // Download the ptau file
     if (downloadPtau) {
-        const downloadPtauCmd = `wget -O ${WORKSPACE_DIR}/ptau/${PTAU_FILENAME} https://hermez.s3-eu-west-1.amazonaws.com/powersOfTau28_hez_final_27.ptau`
+        const downloadPtauCmd = `wget -O ${WORKSPACE_DIR}/ptau/${PTAU_FILENAME} https://hermez.s3-eu-west-1.amazonaws.com/powersOfTau28_hez_final_23.ptau`
         console.log("downloadPtauCmd is:", downloadPtauCmd);
         const downloadPtauOut = shelljs.exec(downloadPtauCmd, { silent: false })
     }
