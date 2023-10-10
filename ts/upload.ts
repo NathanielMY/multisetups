@@ -84,59 +84,51 @@ const upload = async (
         return 1
     }
 
-    // Parse the blake2 hashes from the transcript file
+
+    let rotateContribHash = '0x';
+    let stepContribHash = '0x';
+    let parsingRotateHash = false;
+    let parsingStepHash = false;
+    let contribHashLineNum = -1;
+
     const transcriptPath = path.join(dirname, `transcript.${contributorNum}.txt`)
-    let parsingRotateHash = false
-    let parsingStepHash = false
-
-    // If contribHashLinNum != -1, then means we are currently parsing the contribution hash
-    let contribHashLineNum = -1
-
-    let rotateContribHash = '0x'
-    let stepContribHash = '0x'
 
     fs.readFileSync(transcriptPath, 'utf8').split('\n').forEach((line) => {
-        if (line.includes("rotate") || line.includes("Hasher_2")) {
-            parsingRotateHash = true
-            return
-        } else if (line.includes("step") || line.includes("Hasher_3")) {
-            parsingStepHash = true
-            return
+        if (line.includes("Circuit Hash")) {
+            parsingRotateHash = true;
+            return;
+        } else if (line.includes("Contribution Hash")) {
+            parsingStepHash = true;
+            return;
         }
 
-        if (line.includes('Contribution Hash')) {
-            contribHashLineNum = 0
-            return
-        }
-
-        if (contribHashLineNum != -1) {
-            if (parsingRotateHash) {
-                let re = / /gi
-                rotateContribHash += line.trim().replace(re, '')
-            } else if (parsingStepHash) {
-                let re = / /gi
-                stepContribHash += line.trim().replace(re, '')
-            } else {
-                console.error(`Error: unexpected parsing state: ${line}`)
-                return
+        if (parsingRotateHash || parsingStepHash) {
+            const re = /\s+/gi;  // This will match any white-space characters
+            const cleanedLine = line.trim().replace(re, '');
+            if (cleanedLine) {  // Check if the cleaned line is not empty
+                if (parsingRotateHash) {
+                    rotateContribHash += cleanedLine;
+                } else if (parsingStepHash) {
+                    stepContribHash += cleanedLine;
+                }
             }
 
-            contribHashLineNum += 1
-            if (contribHashLineNum >= 4) {
-                parsingRotateHash = false
-                parsingStepHash = false
-                contribHashLineNum = -1
+            contribHashLineNum++;
+            if (contribHashLineNum >= 3) {  // 4 lines for each hash (0, 1, 2, 3)
+                parsingRotateHash = false;
+                parsingStepHash = false;
+                contribHashLineNum = -1;
             }
-
-            return
+            return;
         }
+    });
 
-        return
-    })
+    console.log(`rotateContribHash: ${rotateContribHash}`);
+    console.log(`stepContribHash: ${stepContribHash}`);
 
     console.log(`successfully uploaded contribution: ${s3bucket}/${s3dirname}`)
 
-    const tweet = `🤫@SuccinctLabs\n\n${rotateContribHash}\n\n${stepContribHash}`
+    const tweet = `🤫@ZephyrExchange\n\n${rotateContribHash}\n\n${stepContribHash}`
     const encodedTweet = encodeURIComponent(tweet)
 
     const twitterURl = clc.bold(`https://twitter.com/intent/tweet?text=${encodedTweet}`)
