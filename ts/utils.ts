@@ -2,9 +2,9 @@ import * as fs from 'fs'
 import * as path from 'path'
 import * as shelljs from 'shelljs'
 
-const SUCCINCT_S3_BUCKET = 's3://succinct-trusted-setup';
+const SUCCINCT_S3_BUCKET = 's3://zephyr-trusted-setup';
 const WORKSPACE_DIR = '/workspace';
-const PTAU_FILENAME = 'powersOfTau28_hez_final_27.ptau';
+const PTAU_FILENAME = 'powersOfTau28_hez_final_25.ptau';
 const FORMAT = '<name>.<num>.zkey'
 const ZKEY_NAMES = new Set<string>(['step', 'rotate'])
 
