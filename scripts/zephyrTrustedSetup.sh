@@ -53,6 +53,7 @@ export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
 export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
 export AWS_DEFAULT_REGION="us-east-1"
 
+
 # Get my contribution number (just +1 to the last contribution on the s3 bucket)
 LAST_CONTRIBUTION_CMD="aws s3 ls $S3BUCKET/0 | sed -En 's/ *PRE //p' | sed -En 's/-.*\/$//p' | sort -n | tail -1 | sed -En 's/^0*//p'"
 LAST_CONTRIBUTION_NUM=$(eval "$LAST_CONTRIBUTION_CMD")

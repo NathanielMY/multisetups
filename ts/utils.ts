@@ -3,7 +3,7 @@ import * as path from 'path'
 import * as shelljs from 'shelljs'
 
 const SUCCINCT_S3_BUCKET = 's3://zephyr-trusted-setup';
-const WORKSPACE_DIR = '/workspace';
+const WORKSPACE_DIR = 'trusted_setup_workspace';
 const PTAU_FILENAME = 'powersOfTau28_hez_final_25.ptau';
 const FORMAT = '<name>.<num>.zkey'
 const ZKEY_NAMES = new Set<string>(['step', 'rotate'])

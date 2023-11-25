@@ -128,7 +128,7 @@ const upload = async (
 
     console.log(`successfully uploaded contribution: ${s3bucket}/${s3dirname}`)
 
-    const tweet = `🤫@ZephyrExchange\n\n${rotateContribHash}\n\n${stepContribHash}`
+    const tweet = `🤫@ZephyrExchange\n\nhttps://zephyr-trusted-setup.s3.amazonaws.com/${s3dirname}/transcript.${contributorNum}.txt`
     const encodedTweet = encodeURIComponent(tweet)
 
     const twitterURl = clc.bold(`https://twitter.com/intent/tweet?text=${encodedTweet}`)
